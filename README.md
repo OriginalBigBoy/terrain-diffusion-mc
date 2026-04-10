@@ -1,15 +1,15 @@
 # Terrain Diffusion Fabric Mod
 
 This is a Minecraft Fabric mod integrating [Terrain Diffusion](https://github.com/xandergos/terrain-diffusion).
-The mod works purely server-side and can be used on multiplayer servers. In v2, the mod is **self-contained**: it runs ML inference locally via ONNX. The released version utilizes CUDA for GPU acceleration.
+The mod works purely server-side and can be used on multiplayer servers. The released version utilizes CUDA for GPU acceleration.
 
 ## Requirements
 
 - Minecraft with [Fabric](https://fabricmc.net/) and the [Fabric API Mod](https://modrinth.com/mod/fabric-api) installed.
-- An NVIDIA GPU with CUDA is strongly recommended. CPU inference is supported but slow (see [Configuration)](#configuration).
+- An NVIDIA GPU with CUDA is strongly recommended. CPU inference is supported but slow (see [Configuration)](#configuration). AMD GPUs and Macs may be supported in the future.
 
 **If you have an NVIDIA GPU**:
-- Download CUDA 12.x (Not 13): https://developer.nvidia.com/cuda-toolkit-archive
+- Download CUDA 12.x **(Not 13)**: https://developer.nvidia.com/cuda-toolkit-archive
 - Download cuDNN 9.x: https://developer.nvidia.com/cudnn
 
 ## Installation
@@ -61,9 +61,8 @@ For Terrain Diffusion worlds, click **Customize** in world creation and set:
 
 This value is saved with the world save and affects:
 
-- block-to-meter mapping (`scale=1` => `30m/block`, `scale=2` => `15m/block`, etc.)
+- how many real-world meters each block represents (`scale=1` => `30m/block`, `scale=2` => `15m/block`, etc.)
 - world max height for newly created worlds (assumes tallest point is 10000 real-world meters)
-- pre-registered worldgen variants for scales `1..6`
 - 2 is recommended to start, or 1 for smaller worlds
 
 ## Building from Source
@@ -76,3 +75,9 @@ This value is saved with the world save and affects:
 ```
 
 At runtime, the mod downloads required model assets from the pinned Hugging Face commit on first launch into `.minecraft/terrain-diffusion-models` and verifies SHA-256 checksums before use. The released jar bundles `onnxruntime_gpu` (CUDA). ONNX Runtime also supports other execution providers (DirectML, TensorRT, ROCm, etc.). See the [ORT provider documentation](https://onnxruntime.ai/docs/execution-providers/) if you want to build with a different backend.
+
+## Note For Mod Developers
+
+While modifying the AI terrain itself is quite complex, the integration with Minecraft biomes is extremely simple. The model outputs elevation + 4 climate variables, and this is converted to Minecraft biomes with hand-written rules. This is the most immediate way to improve the quality of the terrain and is relatively easy, but takes time to get realistic. The entire biome classifier is [only 250 lines](https://github.com/xandergos/terrain-diffusion-mc/blob/master/src/main/java/com/github/xandergos/terraindiffusionmc/pipeline/BiomeClassifier.java).
+
+The terrain diversity far outpaces the biome diversity and there's a real opportunity to close that gap. I'm hoping someone goes crazy with it.
