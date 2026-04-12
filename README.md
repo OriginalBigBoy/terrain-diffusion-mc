@@ -46,7 +46,7 @@ You may need to restart your PC for PATH changes to take effect. Once you're bac
 
 ## Usage
 
-1. Download the mod jar for your Minecraft version and place it in your Minecraft `mods/` folder. Make sure the Minecraft version matches.
+1. Download the mod jar from [Releases](https://github.com/xandergos/terrain-diffusion-mc/releases) for your Minecraft version and place it in your Minecraft `mods/` folder. Make sure the Minecraft version matches.
 2. Launch Minecraft, at least once online to download the models (~2.5GB).
 3. Create a world, and select the **Terrain Diffusion** world type. Click **Customize** to set the `World Scale` (see [Per-world settings](#per-world-settings) below).
 
