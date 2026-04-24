@@ -38,7 +38,7 @@ public final class BiomeClassifier {
     static final short WINDSWEPT_HILLS = 19, JUNGLE = 23, BADLANDS = 26, MEADOW = 29;
     static final short GROVE = 31, SNOWY_SLOPES = 32, FROZEN_PEAKS = 33, STONY_PEAKS = 35;
     static final short WARM_OCEAN = 41, OCEAN = 44, COLD_OCEAN = 46, FROZEN_OCEAN = 48;
-    static final short FOREST_SPARSE = 108, TAIGA_SPARSE = 115, SNOWY_TAIGA_SPARSE = 116;
+
 
     /**
      * Classify biomes for a grid of pixels.
@@ -178,14 +178,14 @@ public final class BiomeClassifier {
                         biome = hasSnow ? FROZEN_PEAKS : STONY_PEAKS;
                     } else if (hasSnow) {
                         if (treesNone) biome = SNOWY_SLOPES;
-                        else if (treesSparse || treesForest) biome = SNOWY_TAIGA_SPARSE;
+                        else if (treesSparse || treesForest) biome = SNOWY_TAIGA;
                         else biome = SNOWY_TAIGA;
                     } else if (treesNone) {
                         if (barren) biome = WINDSWEPT_HILLS;
                         else if (treeMoisture < 0.35f || precip < 350f) biome = GROVE;
                         else biome = PLAINS;
                     } else if (treesSparse || treesForest) {
-                        biome = TAIGA_SPARSE;
+                        biome = TAIGA;
                     } else {
                         biome = TAIGA;
                     }
@@ -194,7 +194,7 @@ public final class BiomeClassifier {
                     if (hasSnow && treesNone) {
                         biome = SNOWY_PLAINS;
                     } else if (hasSnow) {
-                        biome = (treesSparse || treesForest) ? SNOWY_TAIGA_SPARSE : SNOWY_TAIGA;
+                        biome = (treesSparse || treesForest) ? SNOWY_TAIGA : SNOWY_TAIGA;
                     } else if (treesNone) {
                         if (warm || hot) biome = DESERT;
                         else if (barren && !lowland && (cold || cool || temperate)) biome = GROVE;
@@ -203,9 +203,9 @@ public final class BiomeClassifier {
                     } else if (treesSparse || treesForest) {
                         if (hot) biome = JUNGLE;
                         else if (warm && treesSparse && !slopeMedium) biome = SAVANNA;
-                        else if (warm && treesForest) biome = FOREST_SPARSE;
-                        else if (temperate) biome = FOREST_SPARSE;
-                        else biome = TAIGA_SPARSE;
+                        else if (warm && treesForest) biome = FOREST;
+                        else if (temperate) biome = FOREST;
+                        else biome = TAIGA;
                     } else if (treesDense) {
                         if (hot) biome = JUNGLE;
                         else if (warm && lowland) biome = SWAMP;
